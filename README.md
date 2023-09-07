@@ -20,6 +20,12 @@ Set up Git:
 4. git add <Edited File>
 5. git commit -m "commit-comment, what you have done"
 
+Starting with Ansible:
+
+1. First install ansible however you like
+2. Create your first inventory:
+    This file contains a list of your managed notes, either their DNS or their IP
+
 
 
 
