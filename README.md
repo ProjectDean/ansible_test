@@ -44,7 +44,29 @@ Starting with Ansible:
         you basically see EVERYTHING of the servers<br>
         --limit <IP-ADDRESS> limits it to the one server
 
+Running elevated ad-hoc Commands
 
+1. Tell ansible to use sudo
+    ansible all -m apt -a update_cache=true --become --ask-become-pass<br>
+        -m apt : allows to work with apt-packages on a debian system<br>
+        -a update_cache=true : essential makes sudo apt update to the managed node/hosts<br>
+        --become : elevate the privileges of ansible (default is sudo)<br>
+        --ask-become-pass : needed to add a password<br>
+            Docs for the apt-module: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
+2. Installing a package via ansible:
+    ansible all -m apt -a name=vim-nox --become --ask-become-pass
+        -m apt : allows to work with apt-packages on a debian system<br>
+        -a name=vim-nox : the name of the package, here its vim - a text editor<br>
+            doing the same with "tmux", another package<br>
+        --become : elevate the privileges of ansible (default is sudo)<br>
+        --ask-become-pass : needed to add a password
+3. Making sure the package is the latest version possible:<br>
+    ansible all -m apt -a name="snapd state=latest" --become --ask-become-pass<br>
+        snapd : is another package to install<br>
+        state=latest : is used to update that package
+4. Installung all upgrades on the managed Node/Host:<br>
+    ansible all -m apt -a "upgrade=dist" --become --ask-become-pass<br>
+        -a upgrade=dist : is an argument that upgrades all packages on the managed Note/Host
 
 
 
