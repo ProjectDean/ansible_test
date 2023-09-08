@@ -94,10 +94,12 @@
     apt:
       name: apache2
 ```
+
     It is important to align the lines to eachother(hosts, become, tasks and then name & apt). the - shows the start of a new block<br>
     the first `name` is simply the name of the tasks that will be displayed<br>
     the second `name` is the name of the package that is going to be installed with `apt`<br>
     You can add more tasks by following the same pattern:<br>
+
 ```
   - name: Descriptive name of the task
     apt:
