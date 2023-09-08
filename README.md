@@ -83,7 +83,8 @@
     Here you can just name your playbook however you like, ofcourse its best to give it a descriptive name<br>
     Note: Kate is the text-editing program you use and by typing that command, you create or open the file you wrote
 2. The first Playbook is written like this:
-<code>
+
+```
 ---
 
 - hosts: all
@@ -93,20 +94,21 @@
   - name: install apache2 package
     apt:
       name: apache2
-</code>
+```
 
     It is important to align the lines to eachother(hosts, become, tasks and then name & apt). the - shows the start of a new block<br>
     the first `name` is simply the name of the tasks that will be displayed<br>
     the second `name` is the name of the package that is going to be installed with `apt`<br>
     You can add more tasks by following the same pattern:<br>
 
-<code>
+```
   - name: Descriptive name of the task
     apt:
       name: name-of-the-package
       state: latest
     when: ansible_distribution == "Debian"
-</code>
+```
+
     `state` : is used to determite what package is used or what we do with it. `latest` is used to install the latest package, `absent` is used to remove the package<br>
     `when` : is used as a condition, only if Debian is the OS of the Host, the task will be done(in this case, the package will be installed) <br>
     `apt` : dont forget to change this to the package-management of your OS<br>
