@@ -232,16 +232,17 @@ We are now using `service` instead of `apt` and in `state` we now have `started`
 
 ### Managing User
 1. Create another Task to create a new user on `all` hosts/nodes:
-<details><summary>Code</summary>
-```
-- hosts: all
-  become: true
-  tasks:
+<details>
+    <summary>Code</summary>
+    ```
+    - hosts: all
+    become: true
+    tasks:
 
-  - name: create Siko user
-    tags: always
-    user:
-      name: siko
-      groups: root
-```
+    - name: create Siko user
+        tags: always
+        user:
+        name: siko
+        groups: root
+    ```
 </details>
