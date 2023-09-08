@@ -166,7 +166,7 @@ Note: With the tag `always`, the task will always be run.<br>
     Example in "site.yml"
 3. You can change `tasks:` to `pre_tasks:` to make sure the "pre_tasks" are run first, before other plays/tasks
 ### Managing Files
-1. Create another Task:
+1. Create another Task, that is used to copy a file to your Node/Host:
 ```
   - name: copy default html file for site
     tags: apache
@@ -182,3 +182,25 @@ Note: With the tag `always`, the task will always be run.<br>
 `dest` is the destination of the copied file<br>
 `owner` and `group` sets the owner and the group of the file to the user "root"<br>
 `mode` sets the permission the file has once its on the Node/Host<br>
+2. Create another Task, to download and then copy a file to your Node/Host:
+```
+- hosts: all #if you have more than one or want to target a specific one, just name another group u set in the inventory file
+  become: true
+  tasks:
+
+  - name: install unzip
+    package:
+      name: unzip
+  - name: install terraform
+    unarchive:
+      src: https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip
+      dest: /usr/local/bin
+      remote_src: yes
+      mode: 0755
+      owner: root
+      group: root
+```
+`unzip` is used to allow the Node/Host to unzip files/archives from the Commandline<br>
+`unarchive` is the task that is used in ansible to unzip the file you are downloading and to install it<br>
+`src` is where the file comes from, this time from a downloadlink<br>
+`remote_src` tells ansible that it is indead a remote source file that needs to be downloaded<br>

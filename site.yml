@@ -22,6 +22,25 @@
       owner: root
       group: root
       mode: 0644
+
+- hosts: all #if you have more than one or want to target a specific one, just name another group u set in the inventory file
+#workstation can be used as a group to install configs and packages and stuff on your main working station
+  become: true
+  tasks:
+
+  - name: install unzip
+    package:
+      name: unzip
+# unzip is a package that is used to be able to unzip files from the command line
+# The rest is pretty self explanatory, src is the source of the file u want to unzip and dest is the destination
+  - name: install terraform
+    unarchive:
+      src: https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip
+      dest: /usr/local/bin
+      remote_src: yes
+      mode: 0755
+      owner: root
+      group: root
 #- hosts: web_servers
 #  become: true
 #  tasks:
