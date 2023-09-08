@@ -1,6 +1,6 @@
 ## ansible_test
 
-Note: We are using debian and apt, if you dont use these on your servers, watch: https://www.youtube.com/watch?v=BF7vIk9no14&list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70&index=7
+##### Note: We are using debian and apt, if you dont use these on your servers, watch: [Video Link](https://www.youtube.com/watch?v=BF7vIk9no14&list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70&index=7)
 ---
 
 ### Set up SSH Keys:
@@ -18,39 +18,40 @@ Note: We are using debian and apt, if you dont use these on your servers, watch:
 ### Set up Git:
 
 1. Create a Respository on github
-2. Clone your Respository to your local machine:
+2. Clone your Respository to your local machine:<br>
     `git clone <Git-Link>`
 2. Edit files / Work with the Files
-3. Add your edited files via git-command:
+3. Add your edited files via git-command:<br>
     `git add <Edited File>` || (`git add .` adds all files in the directory you are in right now)
-4. Commit your changes:
+4. Commit your changes:<br>
     `git commit -m "comment, what you have done"`
-5. Push your changes to the Respository_
+5. Push your changes to the Respository:<br>
     `git push origin master`
 
 ### Starting with Ansible:
 
 1. First install ansible however you like
 2. Create your first inventory:<br>
-    This file contains a list of your managed nodes/hosts, either their DNS or their IP and is a simple filed called "inventory"
+    This file contains a list of your managed nodes/hosts, either their DNS or their IP and is a simple file called "inventory"<br>
+    This is usually in a list of all the < ip-addresses > of the hosts/nodes you want to manage.<br>
 
 3. First Ansible command:<br>
-    ansible all --key-file ~/.ssh/ansible -i inventory -m ping<br>
+    `ansible all --key-file ~/.ssh/ansible -i inventory -m ping`<br>
         "--key-file"" is the ssh key that is used<br>
         "inventory" is the file with the IP addresses<br>
         "-m ping" is the module that is used
-4. Creating an ansible.cfg file to shorten the command:<br>
+4. Create a ansible.cfg file to shorten the command and fill it with:<br>
     [defaults]<br>
     inventory = inventory<br>
     private_key_file = ~/.ssh/ansible
-5. Now you can leave out keyfile and inventory:<br>
-    ansible all -m ping
+5. Now you can leave out `--key-file` and `inventory`:<br>
+    `ansible all -m ping`
 6. Another command to see all managed nodes/hosts:<br>
-    ansible all --list-hosts
+    `ansible all --list-hosts`
 7. Another command, this time a bit more useful:<br>
-    ansible all -m gather_facts<br>
+    `ansible all -m gather_facts`<br>
         you basically see EVERYTHING of the servers<br>
-        --limit <IP-ADDRESS> limits it to the one server
+        `--limit <IP-ADDRESS>` limits it to the one server
 
 ### Running elevated ad-hoc Commands
 
