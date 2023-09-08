@@ -8,8 +8,8 @@ Note: We are using debian and apt, if you dont use these on your servers, watch:
 1. Copy personal SSH Key to the server<br>
     `ssh-copy-id -i ~/.ssh/SSHKEY.pub <SERVER-IP>`
 2. Create ansible SSH Key<br>
-    `ssh-keygen -t ed25519 -C "ansible"` || (-t stands for type, -C stands for comment)
-    Note: rename the key to "ansible"<br>
+    `ssh-keygen -t ed25519 -C "ansible"` || (-t stands for type, -C stands for comment)<br>
+    Note: rename the key to "ansible"
 3. Copy ansible SSH Key to the server<br>
     `ss-copy-id -i ~/.ssh/SSHKEY.pub <SERVER-IP>`
 4. Making sure OpenSSH uses the right key:<br>
@@ -17,11 +17,16 @@ Note: We are using debian and apt, if you dont use these on your servers, watch:
 
 ### Set up Git:
 
-1. Create a Respository
-2. git clone <Git-Link>
-3. Edit files
-4. git add <Edited File>
-5. git commit -m "commit-comment, what you have done"
+1. Create a Respository on github
+2. Clone your Respository to your local machine:
+    `git clone <Git-Link>`
+2. Edit files / Work with the Files
+3. Add your edited files via git-command:
+    `git add <Edited File>` || (`git add .` adds all files in the directory you are in right now)
+4. Commit your changes:
+    `git commit -m "comment, what you have done"`
+5. Push your changes to the Respository_
+    `git push origin master`
 
 ### Starting with Ansible:
 
