@@ -1,0 +1,49 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install apache2 package and php packages
+    apt:
+      name:
+        - apache2
+        - libapache2-mod-php
+      state: latest
+      update_cache: yes
+    when: ansible_distribution == "Debian"
+
+#- hosts: web_servers
+#  become: true
+#  tasks:
+#
+#  - name: this is an example
+#    apt:
+#      name:
+#        - packagename0
+#        - packagename1
+#
+#- hosts: db_servers
+#  become: true
+#  tasks:
+#
+#  - name: install mariadb package
+#    apt:
+#      name: mariadb-server
+#      state: latest
+#    when: ansible_distribution == "Debian"
+#
+#- hosts: file_servers
+#  become: true
+#  tasks:
+#
+#  - name: install samba package
+#    package:
+#      name: samba
+#      state: latest
+#
+#
+#
+#
+#
+#
