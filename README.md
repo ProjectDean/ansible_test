@@ -103,7 +103,7 @@ You can add more tasks by following the same pattern:<br>
 
 ```
   - name: Descriptive name of the task
-    apt:
+    apt:ansible-playbook --ask-become-pass
       name: name-of-the-package
       state: latest
     when: ansible_distribution == "Debian"
@@ -182,6 +182,7 @@ Note: With the tag `always`, the task will always be run.<br>
 `dest` is the destination of the copied file<br>
 `owner` and `group` sets the owner and the group of the file to the user "root"<br>
 `mode` sets the permission the file has once its on the Node/Host<br>
+
 2. Create another Task, to download and then copy a file to your Node/Host:
 ```
 - hosts: all #if you have more than one or want to target a specific one, just name another group u set in the inventory file
@@ -200,7 +201,47 @@ Note: With the tag `always`, the task will always be run.<br>
       owner: root
       group: root
 ```
-`unzip` is used to allow the Node/Host to unzip files/archives from the Commandline<br>
+`unzip` is used to allow the Node/Host to unzip files/archives from the commandline<br>
 `unarchive` is the task that is used in ansible to unzip the file you are downloading and to install it<br>
 `src` is where the file comes from, this time from a downloadlink<br>
 `remote_src` tells ansible that it is indead a remote source file that needs to be downloaded<br>
+
+### Managing Services
+1. Create another Task, this time to start the httpd Service
+```
+  - name: start httpd service (on something like CentOS)
+    tags: apache,centos, httpd
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: restard httpd (CentOS)
+    tags: apache,centos,httpd
+    service:
+      name: httpd
+      state: restarted
+    when: httpd.changed
+```
+We are now using `service` instead of `apt` and in `state` we now have `started` - This starts the service we have named.<br>
+`state=restarted` would restart the service.<br>
+`enabled: yes` is used so that the service is getting started, even after the host/node is restarted.<br>
+`register: httpd` can be used to save the task into a variable.<br>
+`when: httpd.changed` can be used if you want to ristrict the task to only run when the variabled-task changed anything.<br>
+
+### Managing User
+1. Create another Task to create a new user on `all` hosts/nodes:
+<details><summary>Code</summary>
+```
+- hosts: all
+  become: true
+  tasks:
+
+  - name: create Siko user
+    tags: always
+    user:
+      name: siko
+      groups: root
+```
+</details>
