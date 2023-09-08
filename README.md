@@ -13,7 +13,7 @@
 3. Copy ansible SSH Key to the server<br>
     `ss-copy-id -i ~/.ssh/SSHKEY.pub <SERVER-IP>`
 4. Making sure OpenSSH uses the right key:<br>
-    `ssh -i ~/.ssh/ansible <SERVER-IP><br>`
+    `ssh -i ~/.ssh/ansible <SERVER-IP>`
 
 ### Set up Git:
 
@@ -234,6 +234,7 @@ We are now using `service` instead of `apt` and in `state` we now have `started`
 1. Create another Task to create a new user on `all` hosts/nodes:
 <details>
     <summary>Code</summary>
+
     ```
     - hosts: all
     become: true
@@ -245,4 +246,5 @@ We are now using `service` instead of `apt` and in `state` we now have `started`
         name: siko
         groups: root
     ```
+
 </details>
