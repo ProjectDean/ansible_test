@@ -68,5 +68,31 @@ Running elevated ad-hoc Commands
     ansible all -m apt -a "upgrade=dist" --become --ask-become-pass<br>
         -a upgrade=dist : is an argument that upgrades all packages on the managed Note/Host
 
+Writing the first playbook:
+
+1. Create a .yml file:
+    kate install_apache.yml | Here you can just name your playbook however you like, ofcourse its best to give it a descriptive name
+2. The first Playbook is written like this:
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install apache2 package
+    apt:
+      name: apache2
+
+    It is important to alight the lines to eachother(hosts, become, tasks and then name & apt). the - shows the start of a new block
+    the first "name" is simply the name of the tasks that will be displayed
+    the second "name" is the name of the package that is going to installed with "apt"
+        You can add more tasks by following the same pattern:
+        - name: Descriptive name of the task
+          apt:
+            name: name-of-the-package
+            state: latest (to ensure we always install the latest package, can ofcourse be changed if u want a specific version) | absent can be used to remove the packages
+3. Using the first playbook:
+    ansible-playbook --ask-become-pass install_apache.yml
+        "install_apache.yml" can be any .yml file that u have created
 
 
