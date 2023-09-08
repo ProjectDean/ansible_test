@@ -61,7 +61,7 @@
         `-a update_cache=true` : essential makes sudo apt update to the managed node/hosts<br>
         `--become : elevate` the privileges of ansible (default is sudo)<br>
         `--ask-become-pass` : needed to add a password<br>
-        > Docs for the apt-module: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
+    > Docs for the apt-module: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
 2. Installing a package via ansible:
     `ansible all -m apt -a name=vim-nox --become --ask-become-pass`<br>
         `-m apt` : allows to work with apt-packages on a debian system<br>
