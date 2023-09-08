@@ -229,7 +229,7 @@ We are now using `service` instead of `apt` and in `state` we now have `started`
 `enabled: yes` is used so that the service is getting started, even after the host/node is restarted.<br>
 `register: httpd` can be used to save the task into a variable.<br>
 `when: httpd.changed` can be used if you want to ristrict the task to only run when the variabled-task changed anything.<br>
-
+`changed_when: false` can be added so the change in a task wont get registered as a change(nice for updates, since that happens so often).<br>
 ### Managing User
 1. Create another Task to create a new user on `all` hosts/nodes:
 <details>
@@ -248,3 +248,37 @@ We are now using `service` instead of `apt` and in `state` we now have `started`
     ```
 
 </details>
+2. Now adding the ssh key for the new user
+<details>
+    <summary>Code</summary>
+
+    ```
+    - name: add ssh key for siko
+    tags: always
+    authorized_key:
+      user: siko
+      key: "< PUBLIC SSH-KEY >"
+    ```
+
+</details>
+3. Giving the new user the permissions to use sudo
+<details>
+    <summary>Code</summary>
+
+    ```
+    - name: add sudoers file for siko
+    tags: always
+    copy:
+      src: sudoer_siko
+      dest: /etc/sudoers.d/siko
+      owner: root
+      group: root
+      mode: 0040
+    ```
+
+</details>
+4. Now add `remote_user=siko` to your config file (ansible.cfg). <br>
+Now we can skip typing `--ask-become-pass` in our command and shorten it to: `ansible-playbook site.yml`. <br>
+5. Now copy your `site.yml` file and create a `bootstrap.yml` file. The bootstrap file will contain everything that is neccesary before we work on the nodes/hosts.<br>
+Note: The code for that is `cp site.yml bootstrap.yml`.<br>
+The bootstrap file should only contain the most basic things, including: creating a user, giving it sudoers and updating the host/node.<br>

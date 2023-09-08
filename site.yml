@@ -52,11 +52,11 @@
   become: true
   tasks:
 
-  - name: create Siko user
+  - name: add ssh key for siko
     tags: always
-    user:
-      name: siko
-      groups: root
+    authorized_key:
+      user: siko
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID25bQXRL44eT3KD9dvXAVTIOtkO5oYTgE7kaaE6AC/t ansible"
 
 #- hosts: web_servers
 #  become: true

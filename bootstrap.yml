@@ -1,0 +1,34 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates #(Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+#     when: ansible_distribution == "Ubuntu"
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: create siko user
+    user:
+      name: siko
+      groups: root
+
+  - name: add ssh key for siko
+    authorized_key:
+      user: siko
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAe7/ofWLNBq3+fRn3UmgAizdicLs9vcS4Oj8VSOD1S/ ansible"
+
+  - name: add sudoers file for siko
+    copy:
+      src: sudoer_siko
+      dest: /etc/sudoers.d/siko
+      owner: root
+      group: root
+      mode: 0440
