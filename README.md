@@ -137,7 +137,21 @@ You can add more tasks by following the same pattern:<br>
     Example:
     `95.217.185.39 apache_package=apache2 php_package=libapache2-mod-php`
 3. Use `package` instead of `apt` to make your task universal - ansible will use whichever packagemanager is installed on the managed Node/Host
-
+4. You can add `tags:` to add metadata to the different play/task-blocks, with these tags you can target the specific Block<br>
+    Example:<br>
+```
+ - name: install apache2 package and php packages
+   tags: apache,web,php
+    apt:
+      name:
+        - apache2
+        - libapache2-mod-php
+      state: latest
+    when: ansible_distribution == "Debian"
+```
+With: `ansible-playbook --list-tags site.yml` you cann look up all the tags that are used in the sitem.yml-file.<br>
+With `ansible-playbook --tags apache --ask-become-pass site.yml` only the Taskblocks with the tag `apache` would run.<br>
+Note: With the tag `always`, the task will always be run.<br>
 ### Targeting Specific Nodes:
 1. You can create Groups:
 ```
@@ -151,3 +165,20 @@ You can add more tasks by following the same pattern:<br>
     `- hosts: group_name`
     Example in "site.yml"
 3. You can change `tasks:` to `pre_tasks:` to make sure the "pre_tasks" are run first, before other plays/tasks
+### Managing Files
+1. Create another Task:
+```
+  - name: copy default html file for site
+    tags: apache
+    copy:
+      src: default_site.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
+```
+`copy` is the module name to copy a file to the Node/Host<br>
+`src` is the source of the file you want to copy on to the Node<br>
+`dest` is the destination of the copied file<br>
+`owner` and `group` sets the owner and the group of the file to the user "root"<br>
+`mode` sets the permission the file has once its on the Node/Host<br>

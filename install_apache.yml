@@ -5,7 +5,7 @@
   tasks:
 
   - name: install apache2 package and php packages
-    package:
+    apt:
       name:
         - apache2
         - libapache2-mod-php

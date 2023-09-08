@@ -2,9 +2,10 @@
 
 - hosts: all
   become: true
-  tasks:
+  pre_tasks:
 
   - name: install apache2 package and php packages
+    tags: apache
     apt:
       name:
         - apache2
@@ -13,6 +14,14 @@
       update_cache: yes
     when: ansible_distribution == "Debian"
 
+  - name: copy default html file for site
+    tags: apache
+    copy:
+      src: default_site.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
 #- hosts: web_servers
 #  become: true
 #  tasks:
