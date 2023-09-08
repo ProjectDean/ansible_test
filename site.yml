@@ -4,91 +4,22 @@
   become: true
   pre_tasks:
 
-  - name: install apache2 package and php packages
-    tags: apache
-    apt:
-      name:
-        - apache2
-        - libapache2-mod-php
-      state: latest
+  - name: update repository index (CentOS)
+    tags: always
+    dnf:
       update_cache: yes
-    when: ansible_distribution == "Debian"
-
-  - name: copy default html file for site
-    tags: apache
-    copy:
-      src: default_site.html
-      dest: /var/www/html/index.html
-      owner: root
-      group: root
-      mode: 0644
-
-  - name: start httpd service (on something like CentOS)
-    tags: apache,centos, httpd
-    service:
-      name: httpd
-      state: started
-      enabled: yes
+    changed_when: false
     when: ansible_distribution == "CentOS"
-- hosts: all #if you have more than one or want to target a specific one, just name another group u set in the inventory file
-#workstation can be used as a group to install configs and packages and stuff on your main working station
-  become: true
-  tasks:
 
-  - name: install unzip
-    package:
-      name: unzip
-
-  - name: install terraform
-    unarchive:
-      src: https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip
-      dest: /usr/local/bin
-      remote_src: yes
-      mode: 0755
-      owner: root
-      group: root
+  - name: update repository index (Debian)
+    tags: always
+    apt:
+      update_cache: yes
+    changed_when: false
+    when: ansible_distribution == "Debian"
 
 - hosts: all
   become: true
-  tasks:
+  roles:
+    - base
 
-  - name: add ssh key for siko
-    tags: always
-    authorized_key:
-      user: siko
-      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID25bQXRL44eT3KD9dvXAVTIOtkO5oYTgE7kaaE6AC/t ansible"
-
-#- hosts: web_servers
-#  become: true
-#  tasks:
-#
-#  - name: this is an example
-#    apt:
-#      name:
-#        - packagename0
-#        - packagename1
-#
-#- hosts: db_servers
-#  become: true
-#  tasks:
-#
-#  - name: install mariadb package
-#    apt:
-#      name: mariadb-server
-#      state: latest
-#    when: ansible_distribution == "Debian"
-#
-#- hosts: file_servers
-#  become: true
-#  tasks:
-#
-#  - name: install samba package
-#    package:
-#      name: samba
-#      state: latest
-#
-#
-#
-#
-#
-#

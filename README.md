@@ -230,6 +230,7 @@ We are now using `service` instead of `apt` and in `state` we now have `started`
 `register: httpd` can be used to save the task into a variable.<br>
 `when: httpd.changed` can be used if you want to ristrict the task to only run when the variabled-task changed anything.<br>
 `changed_when: false` can be added so the change in a task wont get registered as a change(nice for updates, since that happens so often).<br>
+
 ### Managing User
 1. Create another Task to create a new user on `all` hosts/nodes:
 <details>
@@ -282,3 +283,46 @@ Now we can skip typing `--ask-become-pass` in our command and shorten it to: `an
 5. Now copy your `site.yml` file and create a `bootstrap.yml` file. The bootstrap file will contain everything that is neccesary before we work on the nodes/hosts.<br>
 Note: The code for that is `cp site.yml bootstrap.yml`.<br>
 The bootstrap file should only contain the most basic things, including: creating a user, giving it sudoers and updating the host/node.<br>
+
+### Roles
+1. First create a backup of your `site.yml` file, since we are restructering everything.
+2. We are now deleting everything from `site.yml` and only adding the Update Task Block and the initiation of roles:<br>
+<details>
+    <summary>Code</summary>
+
+```
+ hosts: all
+  become: true
+  pre_tasks:
+
+  - name: update repository index (CentOS)
+    tags: always
+    dnf:
+      update_cache: yes
+    changed_when: false
+    when: ansible_distribution == "CentOS"
+
+  - name: update repository index (Debian)
+    tags: always
+    apt:
+      update_cache: yes
+    changed_when: false
+    when: ansible_distribution == "Debian"
+
+- hosts: all
+  become: true
+  roles:
+    - base
+```
+
+</details>
+3. Now we need to create the folder structure for the roles, just type:<br>
+`mkdir roles` and in that folder `mkdir base`and in that folder `mkdir tasks` and in the task-folder you create your first "Taskbook" `main.yml`.<br>
+A taskbook does not need `hosts:` or stuff like that and can only contain tasks:
+```
+- name: add ssh key for siko
+    authorized_key:
+      user: siko
+      key: "< PUBLIC SSH-KEY >"
+```
+
