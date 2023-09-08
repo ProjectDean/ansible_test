@@ -1,20 +1,19 @@
 ## ansible_test
 
 Note: We are using debian and apt, if you dont use these on your servers, watch: https://www.youtube.com/watch?v=BF7vIk9no14&list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70&index=7
+---
 
 ### Set up SSH Keys:
 
 1. Copy personal SSH Key to the server<br>
-```
-    ssh-copy-id -i ~/.ssh/SSHKEY.pub <SERVER-IP><br>
-```
+    `ssh-copy-id -i ~/.ssh/SSHKEY.pub <SERVER-IP>`
 2. Create ansible SSH Key<br>
-    ssh-keygen -t ed25519 -C "ansible" || (-t stands for type, -C stands for comment)<br>
+    `ssh-keygen -t ed25519 -C "ansible"` || (-t stands for type, -C stands for comment)
     Note: rename the key to "ansible"<br>
 3. Copy ansible SSH Key to the server<br>
-    ss-copy-id -i ~/.ssh/SSHKEY.pub <SERVER-IP><br>
+    `ss-copy-id -i ~/.ssh/SSHKEY.pub <SERVER-IP>`
 4. Making sure OpenSSH uses the right key:<br>
-    ssh -i ~/.ssh/ansible <SERVER-UP><br>
+    `ssh -i ~/.ssh/ansible <SERVER-IP><br>`
 
 ### Set up Git:
 
@@ -72,7 +71,7 @@ Note: We are using debian and apt, if you dont use these on your servers, watch:
     ansible all -m apt -a "upgrade=dist" --become --ask-become-pass<br>
         -a upgrade=dist : is an argument that upgrades all packages on the managed Note/Host
 
-#### Writing the first playbook:
+### Writing the first playbook:
 
 1. Create a .yml file:<br>
     kate install_apache.yml | Here you can just name your playbook however you like, ofcourse its best to give it a descriptive name
