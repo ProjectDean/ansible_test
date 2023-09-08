@@ -72,15 +72,18 @@
     `ansible all -m apt -a name="snapd state=latest" --become --ask-become-pass`<br>
         `snapd `: is another package to install<br>
         `state=latest` : is used to update that package
-4. Installung all upgrades on the managed Node/Host:<br>
+4. Installing all upgrades on the managed Node/Host:<br>
     `ansible all -m apt -a "upgrade=dist" --become --ask-become-pass`<br>
         `-a upgrade=dist` : is an argument that upgrades all packages on the managed Note/Host
 
 ### Writing the first playbook:
 
 1. Create a .yml file:<br>
-    kate install_apache.yml | Here you can just name your playbook however you like, ofcourse its best to give it a descriptive name
+    `kate install_apache.yml`<br>
+    Here you can just name your playbook however you like, ofcourse its best to give it a descriptive name<br>
+    Note: Kate is the text-editing program you use and by typing that command, you create or open the file you wrote
 2. The first Playbook is written like this:
+```
 ---
 
 - hosts: all
@@ -90,19 +93,25 @@
   - name: install apache2 package
     apt:
       name: apache2
+```
+    It is important to align the lines to eachother(hosts, become, tasks and then name & apt). the - shows the start of a new block<br>
+    the first `name` is simply the name of the tasks that will be displayed<br>
+    the second `name` is the name of the package that is going to be installed with `apt`<br>
+    You can add more tasks by following the same pattern:<br>
+```
+  - name: Descriptive name of the task
+    apt:
+      name: name-of-the-package
+      state: latest
+    when: ansible_distribution == "Debian"
+```
+    `state` : is used to determite what package is used or what we do with it. `latest` is used to install the latest package, `absent` is used to remove the package<br>
+    `when` : is used as a condition, only if Debian is the OS of the Host, the task will be done(in this case, the package will be installed) <br>
+    `apt` : dont forget to change this to the package-management of your OS<br>
 
-    It is important to alight the lines to eachother(hosts, become, tasks and then name & apt). the - shows the start of a new block<br>
-    the first "name" is simply the name of the tasks that will be displayed<br>
-    the second "name" is the name of the package that is going to be installed with "apt"<br>
-        You can add more tasks by following the same pattern:<br>
-        - name: Descriptive name of the task
-          apt:
-            name: name-of-the-package
-            state: latest (to ensure we always install the latest package, can ofcourse be changed if u want a specific version) | absent can be used to remove the packages
-          when: ansible_distribution == "Debian" | This is a condition to only install the package when Debian is the OS, this matters if some hosts are another OS, dont forget to adjust the package system aswell(apt)
 3. Using the first playbook:<br>
-    ansible-playbook --ask-become-pass install_apache.yml<br>
-        "install_apache.yml" can be any .yml file that u have created<br>
+    `ansible-playbook --ask-become-pass install_apache.yml`<br>
+    `install_apache.yml` can be any .yml file that u have created<br>
 
 ### Improving the playbook:
 
