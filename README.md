@@ -96,10 +96,10 @@
       name: apache2
 ```
 
-    It is important to align the lines to eachother(hosts, become, tasks and then name & apt). the - shows the start of a new block<br>
-    the first `name` is simply the name of the tasks that will be displayed<br>
-    the second `name` is the name of the package that is going to be installed with `apt`<br>
-    You can add more tasks by following the same pattern:<br>
+It is important to align the lines to eachother(hosts, become, tasks and then name & apt). the - shows the start of a new block<br>
+the first `name` is simply the name of the tasks that will be displayed<br>
+the second `name` is the name of the package that is going to be installed with `apt`<br>
+You can add more tasks by following the same pattern:<br>
 
 ```
   - name: Descriptive name of the task
@@ -109,9 +109,9 @@
     when: ansible_distribution == "Debian"
 ```
 
-    `state` : is used to determite what package is used or what we do with it. `latest` is used to install the latest package, `absent` is used to remove the package<br>
-    `when` : is used as a condition, only if Debian is the OS of the Host, the task will be done(in this case, the package will be installed) <br>
-    `apt` : dont forget to change this to the package-management of your OS<br>
+`state` : is used to determite what package is used or what we do with it. `latest` is used to install the latest package, `absent` is used to remove the package<br>
+`when` : is used as a condition, only if Debian is the OS of the Host, the task will be done(in this case, the package will be installed) <br>
+`apt` : dont forget to change this to the package-management of your OS<br>
 
 3. Using the first playbook:<br>
     `ansible-playbook --ask-become-pass install_apache.yml`<br>
