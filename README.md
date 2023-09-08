@@ -120,6 +120,8 @@ You can add more tasks by following the same pattern:<br>
 ### Improving the playbook:
 
 1. Instead of writing a new block for every package we are installing, we can combine them into one task:
+
+```
     - name: install apache2 package and php packages
     apt:
       name:
@@ -127,22 +129,25 @@ You can add more tasks by following the same pattern:<br>
         - libapache2-mod-php
       state: latest
     when: ansible_distribution == "Debian"
+```
 2. you can use variables for your package-names:
-    "{{ variable_name }}"
+    `"{{ variable_name }}"`
     You also have to add the variable to your inventory:
-    < IP-ADDRESS > variable_name1=your_os_packagename1 variable_name2=your_os_packagename2
+    `< IP-ADDRESS > variable_name1=your_os_packagename1 variable_name2=your_os_packagename2`
     Example:
-    95.217.185.39 apache_package=apache2 php_package=libapache2-mod-php
-3. Use package instead of apt to make your task universal - ansible will use whichever packagemanager is installed on the managed Node/Host
+    `95.217.185.39 apache_package=apache2 php_package=libapache2-mod-php`
+3. Use `package` instead of `apt` to make your task universal - ansible will use whichever packagemanager is installed on the managed Node/Host
 
 ### Targeting Specific Nodes:
 1. You can create Groups:
+```
     [group_name]
     < IP-ADDRESS0 >
     < IP-ADDRESS1 >
+```
 2. You can target these groups in your playbook by changing:
-    - hosts: all
+    `- hosts: all`
     to:
-    - hosts: group_name
+    `- hosts: group_name`
     Example in "site.yml"
-3. You can change "tasks:" to "pre_tasks:" to make sure the "pre_tasks" are run first, bevore other plays
+3. You can change `tasks:` to `pre_tasks:` to make sure the "pre_tasks" are run first, before other plays/tasks
